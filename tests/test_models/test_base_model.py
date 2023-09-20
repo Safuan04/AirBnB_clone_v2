@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-""" """
-from models.base_model import BaseModel
+"""This is a test for BaseModel """
+from models.base_model import BaseModel, Base
 import unittest
 import datetime
 from uuid import UUID
@@ -8,39 +8,50 @@ import json
 import os
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                 'basemodel test not supported')
 class test_basemodel(unittest.TestCase):
-    """ """
+    """Tests for BaseModel"""
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """the init test class of basemodel"""
         super().__init__(*args, **kwargs)
         self.name = 'BaseModel'
         self.value = BaseModel
 
     def setUp(self):
-        """ """
+        """set up the method of the tests"""
         pass
 
     def tearDown(self):
+        """tear down method of the tests"""
         try:
             os.remove('file.json')
         except:
             pass
 
+    def test_Base_init(self):
+        """Tests for initialize a new BaseModel"""
+        self.assertIsInstance(self.value(), BaseModel)
+        if self.value is not BaseModel:
+            self.assertIsInstance(self.value(), Base)
+        else:
+            self.assertNotIsInstance(self.value(), Base)
+
     def test_default(self):
-        """ """
+        """default test of basemodel"""
         i = self.value()
         self.assertEqual(type(i), self.value)
 
     def test_kwargs(self):
-        """ """
+        """test for BaseModel kwargs"""
         i = self.value()
         copy = i.to_dict()
         new = BaseModel(**copy)
         self.assertFalse(new is i)
 
     def test_kwargs_int(self):
-        """ """
+        """test for integer kwargs"""
         i = self.value()
         copy = i.to_dict()
         copy.update({1: 2})
