@@ -4,7 +4,8 @@ from fabric.api import *
 from os import path
 
 
-env.hosts = ['35.229.93.37', '54.196.213.127']
+env.hosts = ['54.162.95.185', '54.210.59.144']
+env.user = "ubuntu"
 
 
 @runs_once
